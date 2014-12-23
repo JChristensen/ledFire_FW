@@ -1,3 +1,7 @@
+//Set fuses: E:0xFF, H:0xD6, L:0x62 (same as factory settings, plus 1.8V BOD)
+//set fuses:
+//avrdude -p t84 -U lfuse:w:0x62:m -U hfuse:w:0xd6:m -U efuse:w:0xff:m -v
+
 //#include <Streaming.h>    //http://arduiniana.org/libraries/streaming/
 //#include <SoftwareSerial.h>
 #include <movingAvg.h>                   //https://github.com/JChristensen/movingAvg
@@ -46,20 +50,20 @@ void fireLED::run(void)
     }
 }
 
-//SoftwareSerial softSer(8, 9); // RX, TX
+//SoftwareSerial softSer(8, 5); // RX, TX  ( unused, MISO)
 movingAvg Vcc;
 
 const uint8_t MIN_DUTY_CYCLE = 20;
 const uint8_t MAX_DUTY_CYCLE = 255;
 const uint32_t MIN_DELAY = 50;
 const uint32_t MAX_DELAY = 500;
-const uint8_t vSelectPin = 0;        //ground for 3.3V Vcc, tie to Vcc for 5V Vcc
+const uint8_t vSelectPin = 10;        //ground for 3.3V Vcc, tie to Vcc for 5V Vcc
 const uint8_t ledPin1 = 2;
 const uint8_t ledPin2 = 3;
 const uint8_t ledPin3 = 4;
 const uint8_t ledPin4 = 5;
 const uint8_t boostEnable = 7;
-const uint8_t unusedPins[] = { 1, 6, 8, 9, 10 };
+const uint8_t unusedPins[] = { 0, 1, 6, 8, 9 };
 
 int minVcc;
 
@@ -94,8 +98,10 @@ void loop(void)
         lastRead += interval;
         int v = readVcc();
         int avgVcc = Vcc.reading(v);
-//        softSer << v << ' ' << avgVcc << endl;
+//        softSer << minVcc << ' ' << v << ' ' << avgVcc << endl;
         if (avgVcc < minVcc) {
+//            softSer << F("Sleep...\n");
+//            softSer.flush();
             digitalWrite(ledPin1, LOW);
             digitalWrite(ledPin2, LOW);
             digitalWrite(ledPin3, LOW);
