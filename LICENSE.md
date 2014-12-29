@@ -1,7 +1,7 @@
 # LED PWM Fire Effect (Firmware) #
-http://github.com/JChristensen/ledFire_FW
+http://github.com/JChristensen/ledFire_FW  
 LICENSE file  
-Jack Christensen Nov 2014  
+Jack Christensen Dec 2014  
 
 ![CC BY-SA](http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-sa.png)
 ## CC BY-SA ##
